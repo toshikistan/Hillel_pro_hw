@@ -15,7 +15,9 @@ def memory_usage(f):
         return result
     return deco
 
-#ТЕСТ
+# ТЕСТ
+
+
 @memory_usage
 def fetch_url(url, first_n=100):
     res = requests.get(url)
@@ -23,6 +25,7 @@ def fetch_url(url, first_n=100):
 
 
 print(fetch_url('https://dnipro.ithillel.ua/ru', first_n=42))
+
 
 @memory_usage
 def create_list(n):
