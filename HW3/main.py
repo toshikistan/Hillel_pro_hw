@@ -1,10 +1,3 @@
-# def generate_students():
-#     # count should be as input GET parameter
-#     # first_name, last_name, email, password, birthday (18-60)
-#     # save to csv and show on web page
-#     # set limit as 1000
-#     pass
-
 import csv
 from flask_apispec import use_kwargs
 from flask import Flask, Response
@@ -58,6 +51,34 @@ def generate_student(count: int):
         for student in students:
             writer.writerow(student)
     return students
+
+
+@app.route('/bitcoin_rate')
+@use_kwargs(
+    {
+        'currency': fields.Str(
+            missing='USD'
+        ),
+        'convert': fields.Float(
+            missing=1
+        )
+    },
+    location='query'
+)
+def get_bitcoin_value(currency, convert):
+
+    url = 'https://bitpay.com/api/rates'
+    bitcoin = httpx.get(url)
+    bitcoin_rates = bitcoin.json()
+
+    if bitcoin.status_code != HTTPStatus.OK:
+        return Response('Error: something went wrong', status=bitcoin.status_code)
+
+    for i in bitcoin_rates:
+        if i['code'] == currency:
+            bitcoin_value = i['rate'] * convert
+
+            return f"{convert} BTC equal to {str(bitcoin_value)} {currency}"
 
 
 if __name__ == '__main__':
