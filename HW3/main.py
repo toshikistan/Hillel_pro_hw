@@ -27,11 +27,6 @@ def hello_world():
     location='query'
 )
 def generate_student(count: int):
-    # count = request.args.get('count', '10')
-    # count = int(count)
-    # if count > 1000:
-    #     return "Слишком много значений, введите до 1000"
-
     students = []
     for _ in range(count):
         student = {
