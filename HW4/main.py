@@ -127,7 +127,7 @@ def get_album_hours_info(albumid):
         SELECT 
             albums.AlbumId, 
             albums.Title, 
-            SUM(tracks.Milliseconds) / 3600000.0 AS Hours
+            SUM(tracks.Milliseconds) / 3600000.0
         FROM 
             albums
         JOIN 
@@ -146,7 +146,7 @@ def get_album_hours_info(albumid):
         SELECT 
             albums.AlbumId, 
             albums.Title, 
-            SUM(tracks.Milliseconds) / 3600000.0 AS Hours
+            SUM(tracks.Milliseconds) / 3600000.0
         FROM 
             albums
         JOIN 
