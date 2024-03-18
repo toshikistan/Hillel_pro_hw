@@ -10,12 +10,13 @@ class Point():
 
 class Circle():
     def __init__(self, x, y, radius):
-        self.center = Point(x, y)
+        self.x = x
+        self.y = y
         self.radius = radius
 
     def contains(self, point):
-        distance_to_center = (point.x - self.center.x)**2 + \
-            (point.y - self.center.y)**2
+        distance_to_center = (point.x - circle.x)**2 + \
+            (point.y - circle.y)**2
         return distance_to_center <= self.radius**2
 
 

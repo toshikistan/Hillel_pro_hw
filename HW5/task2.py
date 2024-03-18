@@ -32,7 +32,7 @@ def find_city_genre(genre):
         SELECT 
             customers.City, 
             genres.Name, 
-            COUNT(*)
+            COUNT(*) AS GenreCounts
         FROM 
             customers
         JOIN 
@@ -45,17 +45,16 @@ def find_city_genre(genre):
             genres ON tracks.GenreId = genres.GenreId
         WHERE 
             genres.Name = ?
+        GROUP BY
+            customers.City
+        ORDER BY
+            GenreCounts DESC
+        LIMIT 1
         ;
         """
         result = execute_query(query=query, args=(genre,))
     else:
-        query = """
-        --sql
-        SELECT genres.Name FROM genres
-        GROUP BY genres.Name;
-        """
-        table = execute_query(query=query)
-        result = f"Input one of genre names: {table}"
+        result = "Input some genre name."
     return result
 
 
