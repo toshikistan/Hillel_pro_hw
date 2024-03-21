@@ -25,31 +25,35 @@ def Hello_world():
     },
     location='query'
 )
-def find_city_genre(genre):
+def find_city_genre(genre=None):
     if genre:
         query = """
         --sql
-        SELECT 
-            customers.City, 
-            genres.Name, 
-            COUNT(*) AS GenreCounts
-        FROM 
-            customers
-        JOIN 
-            invoices ON customers.CustomerId = invoices.CustomerId
-        JOIN 
-            invoice_items ON invoices.InvoiceId = invoice_items.InvoiceId
-        JOIN 
-            tracks ON invoice_items.TrackId = tracks.TrackId
-        JOIN 
-            genres ON tracks.GenreId = genres.GenreId
-        WHERE 
-            genres.Name = ?
-        GROUP BY
-            customers.City
+        SELECT
+            City,
+            Name,
+            GenreCounts
+        FROM
+            (SELECT
+                customers.City,
+                genres.Name,
+                COUNT(*) AS GenreCounts,
+                DENSE_RANK() OVER (PARTITION BY genres.Name ORDER BY COUNT(*) DESC) AS DRank
+            FROM
+                customers
+                JOIN invoices ON customers.CustomerId = invoices.CustomerId
+                JOIN invoice_items ON invoices.InvoiceId = invoice_items.InvoiceId
+                JOIN tracks ON invoice_items.TrackId = tracks.TrackId
+                JOIN genres ON tracks.GenreId = genres.GenreId
+            WHERE
+                genres.Name = ?
+            GROUP BY
+                customers.City,
+                genres.Name) AS ranked_cities
+        WHERE
+            DRank = 1
         ORDER BY
             GenreCounts DESC
-        LIMIT 1
         ;
         """
         result = execute_query(query=query, args=(genre,))
