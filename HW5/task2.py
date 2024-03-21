@@ -25,7 +25,7 @@ def Hello_world():
     },
     location='query'
 )
-def find_city_genre(genre=None):
+def find_city_genre(genre):
     if genre:
         query = """
         --sql
