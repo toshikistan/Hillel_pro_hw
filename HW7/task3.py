@@ -1,20 +1,5 @@
 # 3. Створити context manager який буде фарбувати колір виведеного тексту
 
-# https://www.skillsugar.com/how-to-print-coloured-text-in-python
-
-# Приклад:
-
-# print('\033[93m', end='')
-# print('aaa')
-# print('bbb')
-# print('\033[0m', end='')
-# print('ccc')
-
-# with colorizer('red'):
-#     print('printed in red')
-# print('printed in default color')
-
-
 from colors_settings import colors
 
 
